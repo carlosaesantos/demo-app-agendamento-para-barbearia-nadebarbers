@@ -1,0 +1,339 @@
+// build.gradle
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'com.nadebarbers'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Add any necessary dependencies here
+    // For example, if you plan to use a database:
+    // implementation 'org.xerial:sqlite-jdbc:3.36.0.3'
+}
+
+application {
+    mainClass = 'com.nadebarbers.App'
+}
+Java
+
+// src/main/java/com/nadebarbers/App.java
+package com.nadebarbers;
+
+public class App {
+    public static void main(String[] args) {
+        System.out.println("Bem-vindo ao App de Agendamento da NadeBarbers!");
+        // Aqui você adicionará a lógica principal do seu aplicativo
+    }
+}
+Java
+
+// src/main/java/com/nadebarbers/model/Cliente.java
+package com.nadebarbers.model;
+
+public class Cliente {
+    private int id;
+    private String nome;
+    private String telefone;
+    private String email;
+
+    public Cliente(int id, String nome, String telefone, String email) {
+        this.id = id;
+        this.nome = nome;
+        this.telefone = telefone;
+        this.email = email;
+    }
+
+    // Getters e Setters
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+}
+Fragmento do código
+
+// src/main/java/com/nadebarbers/model/Servico.java
+package com.nadebarbers.model;
+
+public class Servico {
+    private int id;
+    private String nome;
+    private double preco;
+    private int duracaoMinutos;
+
+    public Servico(int id, String nome, double preco, int duracaoMinutos) {
+        this.id = id;
+        this.nome = nome;
+        this.preco = preco;
+        this.duracaoMinutos = duracaoMinutos;
+    }
+
+    // Getters e Setters
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public double getPreco() {
+        return preco;
+    }
+
+    public void setPreco(double preco) {
+        this.preco = preco;
+    }
+
+    public int getDuracaoMinutos() {
+        return duracaoMinutos;
+    }
+
+    public void setDuracaoMinutos(int duracaoMinutos) {
+        this.duracaoMinutos = duracaoMinutos;
+    }
+}
+Java
+
+// src/main/java/com/nadebarbers/model/Agendamento.java
+package com.nadebarbers.model;
+
+import java.time.LocalDateTime;
+
+public class Agendamento {
+    private int id;
+    private Cliente cliente;
+    private Servico servico;
+    private LocalDateTime dataHora;
+
+    public Agendamento(int id, Cliente cliente, Servico servico, LocalDateTime dataHora) {
+        this.id = id;
+        this.cliente = cliente;
+        this.servico = servico;
+        this.dataHora = dataHora;
+    }
+
+    // Getters e Setters
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public Servico getServico() {
+        return servico;
+    }
+
+    public void setServico(Servico servico) {
+        this.servico = servico;
+    }
+
+    public LocalDateTime getDataHora() {
+        return dataHora;
+    }
+
+    public void setDataHora(LocalDateTime dataHora) {
+        this.dataHora = dataHora;
+    }
+}
+Java
+
+// src/main/java/com/nadebarbers/controller/AgendamentoController.java
+package com.nadebarbers.controller;
+
+import com.nadebarbers.model.Agendamento;
+import com.nadebarbers.model.Cliente;
+import com.nadebarbers.model.Servico;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+public class AgendamentoController {
+    private List<Agendamento> agendamentos = new ArrayList<>();
+    private int proximoId = 1;
+
+    public void adicionarAgendamento(Cliente cliente, Servico servico, LocalDateTime dataHora) {
+        Agendamento novoAgendamento = new Agendamento(proximoId++, cliente, servico, dataHora);
+        agendamentos.add(novoAgendamento);
+        System.out.println("Agendamento realizado com sucesso para " + cliente.getNome() + " em " + dataHora);
+    }
+
+    public List<Agendamento> listarAgendamentos() {
+        return agendamentos;
+    }
+
+    // Outros métodos como cancelarAgendamento, buscarAgendamentos, etc. podem ser adicionados
+}
+Java
+
+// src/main/java/com/nadebarbers/view/ConsoleView.java
+package com.nadebarbers.view;
+
+import com.nadebarbers.controller.AgendamentoController;
+import com.nadebarbers.model.Cliente;
+import com.nadebarbers.model.Servico;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
+
+public class ConsoleView {
+    private AgendamentoController agendamentoController;
+    private Scanner scanner;
+
+    public ConsoleView(AgendamentoController agendamentoController) {
+        this.agendamentoController = agendamentoController;
+        this.scanner = new Scanner(System.in);
+    }
+
+    public void exibirMenu() {
+        int opcao;
+        do {
+            System.out.println("\n--- Menu NadeBarbers ---");
+            System.out.println("1. Agendar Serviço");
+            System.out.println("2. Listar Agendamentos");
+            System.out.println("0. Sair");
+            System.out.print("Escolha uma opção: ");
+            opcao = scanner.nextInt();
+            scanner.nextLine(); // Consumir a quebra de linha
+
+            switch (opcao) {
+                case 1:
+                    agendarServico();
+                    break;
+                case 2:
+                    listarAgendamentos();
+                    break;
+                case 0:
+                    System.out.println("Saindo do aplicativo. Até logo!");
+                    break;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+            }
+        } while (opcao != 0);
+    }
+
+    private void agendarServico() {
+        System.out.println("\n--- Agendar Serviço ---");
+
+        System.out.print("Nome do Cliente: ");
+        String nomeCliente = scanner.nextLine();
+
+        System.out.print("Telefone do Cliente: ");
+        String telefoneCliente = scanner.nextLine();
+
+        System.out.print("Email do Cliente: ");
+        String emailCliente = scanner.nextLine();
+        Cliente cliente = new Cliente(1, nomeCliente, telefoneCliente, emailCliente); // Simples criação de cliente
+
+        System.out.println("\n--- Serviços Disponíveis ---");
+        System.out.println("1. Corte de Cabelo - R$ 30.00 (30 minutos)");
+        System.out.println("2. Barba - R$ 20.00 (20 minutos)");
+        System.out.print("Escolha o serviço (1 ou 2): ");
+        int escolhaServico = scanner.nextInt();
+        scanner.nextLine();
+
+        Servico servico = null;
+        if (escolhaServico == 1) {
+            servico = new Servico(1, "Corte de Cabelo", 30.00, 30);
+        } else if (escolhaServico == 2) {
+            servico = new Servico(2, "Barba", 20.00, 20);
+        } else {
+            System.out.println("Serviço inválido.");
+            return;
+        }
+
+        System.out.print("Digite a data e hora do agendamento (formato: yyyy-MM-dd HH:mm): ");
+        String dataHoraString = scanner.nextLine();
+        LocalDateTime dataHora;
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            dataHora = LocalDateTime.parse(dataHoraString, formatter);
+            agendamentoController.adicionarAgendamento(cliente, servico, dataHora);
+        } catch (Exception e) {
+            System.out.println("Formato de data e hora inválido.");
+        }
+    }
+
+    private void listarAgendamentos() {
+        System.out.println("\n--- Lista de Agendamentos ---");
+        if (agendamentoController.listarAgendamentos().isEmpty()) {
+            System.out.println("Nenhum agendamento encontrado.");
+        } else {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            for (Agendamento agendamento : agendamentoController.listarAgendamentos()) {
+                System.out.println("ID: " + agendamento.getId());
+                System.out.println("Cliente: " + agendamento.getCliente().getNome());
+                System.out.println("Serviço: " + agendamento.getServico().getNome());
+                System.out.println("Data/Hora: " + agendamento.getDataHora().format(formatter));
+                System.out.println("---");
+            }
+        }
+    }
+}
+Java
+
+// src/main/java/com/nadebarbers/App.java
+package com.nadebarbers;
+
+import com.nadebarbers.controller.AgendamentoController;
+import com.nadebarbers.view.ConsoleView;
+
+public class App {
+    public static void main(String[] args) {
+        AgendamentoController controller = new AgendamentoController();
+        ConsoleView view = new ConsoleView(controller);
+        view.exibirMenu();
+    }
+}
