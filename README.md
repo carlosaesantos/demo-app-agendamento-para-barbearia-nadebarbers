@@ -1,1 +1,1 @@
-# demo-app-agendamento-para-barbearia-nadebarbers
+# demo-app-agendamento-para-barbearia-nadebarbers\barbearia
