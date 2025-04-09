@@ -1,0 +1,91 @@
+# API REST Simples com Spring Boot no Railway
+
+Este projeto demonstra a criação e publicação de uma API REST simples utilizando Spring Boot 3, Java 17 e Gradle, com o objetivo de ser rapidamente implantada na plataforma Railway.
+
+## Tecnologias Utilizadas
+
+* **Java:** 17
+* **Spring Boot:** 3.x.x (utilizando Spring Web)
+* **Gradle:** Sistema de build
+* **Railway:** Plataforma de implantação em nuvem
+* **IntelliJ IDEA:** IDE de desenvolvimento (opcional, mas recomendado)
+
+## Pré-requisitos
+
+Antes de começar, certifique-se de ter as seguintes ferramentas instaladas e configuradas em seu ambiente de desenvolvimento:
+
+* **Java Development Kit (JDK) 17:** Necessário para compilar e executar a aplicação Java.
+* **Gradle:** Utilizado para construir e gerenciar as dependências do projeto.
+* **Conta no Railway:** Você precisará de uma conta ativa no [Railway](https://railway.app/) para implantar a API na nuvem.
+* **npm (Node Package Manager) e Railway CLI (Opcional para deploy via CLI):** Caso opte pela implantação via linha de comando do Railway.
+* **Git:** Para versionamento do código e integração com o Railway via repositório.
+* **Cliente REST (ex: Postman, Insomnia):** Para testar a API após a publicação.
+
+## Como Executar (Localmente - Opcional)
+
+1.  **Clone o repositório:**
+    ```bash
+    git clone <URL_DO_SEU_REPOSITORIO>
+    cd <nome_do_seu_projeto>
+    ```
+
+2.  **Construa o projeto com Gradle:**
+    ```bash
+    ./gradlew build
+    ```
+
+3.  **Execute a aplicação Spring Boot:**
+    ```bash
+    ./gradlew bootRun
+    ```
+
+    A API estará disponível localmente (geralmente em `http://localhost:8080`).
+
+## Implantação no Railway
+
+Existem duas formas principais de implantar esta API no Railway:
+
+**Opção 1: Utilizando a Railway CLI (Recomendado para rapidez)**
+
+1.  **Instale a Railway CLI (se ainda não o fez):**
+    ```bash
+    npm install -g railway-cli
+    ```
+
+2.  **Faça login no Railway via CLI:**
+    ```bash
+    railway login
+    ```
+
+3.  **Navegue até a raiz do seu projeto no terminal.**
+
+4.  **Implante o projeto no Railway:**
+    ```bash
+    railway up
+    ```
+
+    O Railway detectará automaticamente o tipo de projeto (Spring Boot/Gradle) e iniciará o processo de build e deploy.
+
+**Opção 2: Conectando um Repositório Git**
+
+1.  **Inicialize um repositório Git no seu projeto (se ainda não o fez):**
+    ```bash
+    git init
+    git add .
+    git commit -m "Initial commit"
+    ```
+
+2.  **Crie um repositório remoto no GitHub, GitLab ou Bitbucket.**
+
+3.  **Vincule o repositório local ao remoto:**
+    ```bash
+    git remote add origin <URL_DO_SEU_REPOSITORIO_REMOTO>
+    git push -u origin main
+    ```
+
+4.  **No painel web do Railway ([https://railway.app/](https://railway.app/)), crie um novo projeto e selecione a opção "Deploy from Git Repository".**
+
+5.  **Escolha o seu provedor Git e selecione o repositório do seu projeto.**
+
+    O Railway fará o build e deploy da sua API automaticamente a cada push para o repositório.
+
